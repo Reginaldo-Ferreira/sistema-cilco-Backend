@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     sexo: DataTypes.STRING(1),
     endereco: DataTypes.TEXT,
     password: DataTypes.STRING,
-    role: DataTypes.INTEGER
+    role: DataTypes.INTEGER,
+    ativo: DataTypes.BOOLEAN
   }, {});
   Alunos.associate = function(models) {
     // associations can be defined here
