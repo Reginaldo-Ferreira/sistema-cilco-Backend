@@ -9,9 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       email: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       cpf: {
@@ -34,6 +36,9 @@ module.exports = {
       },
       role: {
         type: Sequelize.INTEGER
+      },
+      ativo: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
