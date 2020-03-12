@@ -5,7 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     ativo: DataTypes.BOOLEAN
   }, {});
   Responsaveis.associate = function(models) {
-    // associations can be defined here
+ 
+    Responsaveis.belongsTo(models.Alunos); 
+    Responsaveis.belongsTo(models.Parentesco); 
   };
   return Responsaveis;
 };
