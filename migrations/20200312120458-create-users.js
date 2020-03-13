@@ -35,6 +35,10 @@ module.exports = {
       role: {
         type: Sequelize.INTEGER
       },
+      ativo: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

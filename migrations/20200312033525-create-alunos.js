@@ -38,7 +38,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       ativo: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
       },
       createdAt: {
         allowNull: false,
