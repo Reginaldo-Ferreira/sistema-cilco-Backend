@@ -1,15 +1,26 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Professors', {
+    return queryInterface.createTable('ConteudoProgramaticos', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      ativo: {
-        type: Sequelize.BOOLEAN
+      data: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      titulo: {
+        allowNull: false,
+        type: Sequelize.STRING(45)
+      },
+      corpo: {
+        type: Sequelize.TEXT
+      },
+      observacao: {
+        type: Sequelize.STRING(200)
       },
       createdAt: {
         allowNull: false,
@@ -22,6 +33,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Professors');
+    return queryInterface.dropTable('ConteudoProgramaticos');
   }
 };
