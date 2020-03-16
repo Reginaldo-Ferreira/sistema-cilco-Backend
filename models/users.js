@@ -13,7 +13,10 @@ module.exports = (sequelize, DataTypes) => {
     ativo: DataTypes.BOOLEAN
   }, {});
   Users.associate = function(models) {
-    // associations can be defined here
+   // models.Funcoes.hasMany(Users);
+    //Users.belongsTo(models.Funcoes);
+    Users.belongsTo(models.Funcoes, {foreignKey: 'funcoes_id'} );
+
   };
   return Users;
 };

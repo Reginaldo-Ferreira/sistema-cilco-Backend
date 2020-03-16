@@ -1,0 +1,66 @@
+### funções
+
+GET http://localhost:3000/funcoes HTTP/1.1
+content-type: application/json
+
+
+###
+
+POST http://localhost:3000/funcoes HTTP/1.1
+content-type: application/json
+
+{
+    "descricao": "auxiliar adm",
+    "ativo": "true"
+}
+
+### users
+
+GET http://localhost:3000/admin/users/7
+
+
+###
+
+PUT http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Gesimiel aguiar", 
+    "email": "Gesimiel@hotmail.com",
+    "cpf": "4598932149",
+    "rg": "665989201",
+    "datanascimento": "1994-06-08",
+    "sexo": "M",
+    "endereco": "{'cep': '72880-540','logradouro': 'SQ 13 Quadra 8','complemento': '','bairro': 'Centro','localidade': 'Cidade Ocidental','uf': 'GO','unidade': '','ibge': '5205497','gia': ''}",
+    "password": "1111",
+    "role": "2",
+    "ativo": "false",
+    "funcoes_id": "5"
+}
+
+
+###
+
+
+
+POST http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+{
+    "id": "7",
+    "name": "Gesimiel aguiar santos santos",
+    "email": "Gesimiel@hotmail.com",
+    "cpf": "4598932149",
+    "rg": "665989201",
+    "datanascimento": "1994-06-08",
+    "sexo": "M",
+    "endereco": "{'cep': '72880-540','logradouro': 'SQ 13 Quadra 8','complemento': '','bairro': 'Centro','localidade': 'Cidade Ocidental','uf': 'GO','unidade': '','ibge': '5205497','gia': ''}",
+    "password": "1111",
+    "role": "2",
+    "ativo": "true",
+    "funcoes_id": "5"
+}
+
+###
+
+GET http://localhost:3000/users/activate/7/true HTTP/1.1

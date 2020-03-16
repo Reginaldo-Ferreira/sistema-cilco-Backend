@@ -1,11 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const funcao = sequelize.define('Funcoes', {
+  const Funcoes = sequelize.define('Funcoes', {
     descricao: DataTypes.STRING(30),
     ativo: DataTypes.BOOLEAN
   }, {});
-  funcao.associate = function(models) {
+  Funcoes.associate = function(models) {
     // associations can be defined here
+  //  Funcoes.hasMany(models.Users);
   };
-  return funcao;
+  return Funcoes;
 };

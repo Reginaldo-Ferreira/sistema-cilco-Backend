@@ -1,9 +1,15 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+var cors = require('cors');
 
+//config cors
+app.use(cors());
 
-// View engine
+//Router imports
+ const UsersRouter = require("./routes/UsersRoutes");
+ const FuncoesRoutes = require("./routes/FuncoesRoutes");
+
 
 app.use(express.static('public'));
 
@@ -13,6 +19,8 @@ app.use(bodyParser.json());
 
 
 // Router
+ app.use("/", UsersRouter);
+ app.use("/", FuncoesRoutes);
 
     app.get("/", (req, res) => {
         res.json({text: 'servidor is open!'});
