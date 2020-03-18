@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.addColumn("FuncaosUsers",'funcao_id',{
+    return queryInterface.addColumn("users",'funcoes_id',{
       type: Sequelize.DataTypes.INTEGER,
       references:{
         model:'Funcoes',

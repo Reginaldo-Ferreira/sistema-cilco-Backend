@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     json: DataTypes.TEXT
   }, {});
   Diarios.associate = function(models) {
-    FuncaosUsers.belongsTo(models.Matriculas);
+    Diarios.belongsTo(models.Matriculas);
   };
   return Diarios;
 };
