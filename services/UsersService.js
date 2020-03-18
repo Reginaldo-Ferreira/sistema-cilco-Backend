@@ -4,6 +4,7 @@ var Database = require("../models/index");
 class UsersService {
   constructor() {
     this.Users = Database["Users"];
+    this.Funcoes = Database["Funcoes"];
   }
 
   async update(id, data) {
@@ -12,7 +13,7 @@ class UsersService {
     if (isValid) {
       try {
         var user = await this.getById(id);
-//name, email, cpf, rg, datanascimento, sexo, endereco, password, role, ativo
+        //name, email, cpf, rg, datanascimento, sexo, endereco, password, role, ativo
         user.name = data.name;
         user.email = data.email;
         user.cpf = data.cpf;
@@ -26,44 +27,51 @@ class UsersService {
         user.funcoes_id = data.funcao_id;
 
         await user.save();
-        return user;
+        return { result: user };
       } catch (error) {
         errors.system_msg = "não foi possível editar o user";
-        return errors;
+        return { result: errors };
       }
     } else {
-      return errors;
+      return { result: errors };
     }
   }
 
   async listAll() {
     // no curso pelo professor o nome do method is getall()
-    let dbUsers = {};
+    let result = {};
     var errors = {};
     try {
-      dbUsers = await this.Users.findAll(); //{ order: [["id", "DESC"]], limit: 4 }
-      return dbUsers;
-    } catch (e) {
-      errors.system_msg = e;
+      result = await this.Users.findAll({
+        include: [{ model: this.Funcoes }]
+      }); //{ order: [["id", "DESC"]], limit: 4 }
 
-      return errors;
+      return result;
+    } catch (e) {
+      errors.system_msg = "não foi possível conectar com o banco";
+
+      return { result, errors, e };
     }
   }
 
   async getById(id) {
-    let dbUser = {};
+    let result = {};
     var errors = {};
     try {
-      dbUser = await this.Users.findByPk(id);
-      if (dbUser) {
-        return dbUser;
+      result = await this.Users.findByPk(id, {
+        include: [{ model: this.Funcoes }]
+      });
+      //console.log(result)
+      if (result) {
+        let newObj = Object.assign({}, result.dataValues); // remodelando o objeto de retorno
+        return Object.assign(newObj, { Funco: newObj.Funco.descricao });
       } else {
         errors.system_msg = `Id: [ ${id} ] não encontrado`;
         return errors;
       }
     } catch (e) {
-      errors.system_msg = e;
-      return errors;
+      errors.system_msg = "não foi possível conectar com o banco";
+      return { errors, e };
     }
   }
 
@@ -71,14 +79,14 @@ class UsersService {
     var errors = {};
 
     var isValid = this.validate(users, errors);
-    
+
     if (isValid) {
       try {
         await this.Users.create(users);
-        return true;
+        return { result: true };
       } catch (e) {
         errors.system_msg = "Não foi possível salvar o Usuário";
-        return {errors,Tryerro: e};
+        return { errors, Tryerro: e };
       }
     } else {
       return errors;
@@ -88,11 +96,25 @@ class UsersService {
   async activate(id, activate) {
     try {
       var user = await this.getById(id);
-      user.ativo = activate; //ativa ou desativa nomeclatura correta é 'deactivated' , contudo ficará com o nome que já estava. 
+      user.ativo = activate; //ativa ou desativa nomeclatura correta é 'deactivated' , contudo ficará com o nome que já estava.
       await user.save();
-      return {status: "sucess", id, activate} ;
+      return { result: "sucess", id, activate };
     } catch (error) {
-      return {error, id} ;
+      return { error, id };
+    }
+  }
+
+  async delete(id) { //deleção permanente
+    try {
+      await this.Users.destroy({
+        where: {
+            id: id
+        }
+    });
+    return { result: "deleatado", id };
+    } catch (e) {
+      errors.system_msg = "Não foi possível deletar o Usuário";
+      return { errors, id , e};
     }
   }
 

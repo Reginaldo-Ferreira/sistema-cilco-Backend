@@ -2,21 +2,13 @@ const UsersService = require("../services/UsersService");
 
 class UsersController {
   async index(req, res) {
-    let Users = {};
-    let erro = {};
-
+    let result = {};
     try {
-      Users = await UsersService.listAll(); // getall()
+      result = await UsersService.listAll(); // getall()
       // res.json(plans);
-
-      if (Users.system_msg == undefined) {
-        res.json(Users);
-      } else {
-        res.json(Users);
-        // res.json("Houve um erro: \n" + JSON.stringify(plans));
-      }
+        res.json(result);
     } catch (e) {
-      res.json(e);
+      res.json(result, e);
     } finally {
     }
   
@@ -55,7 +47,9 @@ class UsersController {
     res.json(user);
   }
 
-
+async deletePermanently(req, res){
+  res.json( await UsersService.delete(req.params.id));
+}
 
   async active(req, res) {
     var id = req.params.id;
