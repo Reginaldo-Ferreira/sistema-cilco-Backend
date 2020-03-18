@@ -11,4 +11,5 @@ router.post("/users", UsersController.update);//update
 router.put("/users", UsersController.store); //create
 
 router.get("/users/activate/:id/:activate", UsersController.active);
+router.delete("/users/:id",UsersController.deletePermanently)
 module.exports = router;

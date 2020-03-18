@@ -3,27 +3,24 @@ const FuncoesService = require("../services/FuncoesService");
 class FuncoesController {
 
   async store(req, res) {
-   
+    let result = {};
     var Funcoes = { ...req.body };
-    var result = await FuncoesService.store(Funcoes);
-
-    if (result == true) {
+    try {
+      result = await FuncoesService.store(Funcoes);
       res.json(result);
-    } else {
-       res.json(result);
+    } catch (error) {
+      res.json({result, error});
     }
   }
 
   async index(req, res) {
-    let Funcoes = {};
+    let result = {};
     try {
-      Funcoes = await FuncoesService.getall(); // getall()
-        res.json(Funcoes);
-    } catch (e) {
-      res.json(e);
-    } finally {
-
-    }
+      result = await FuncoesService.getall(); // getall()
+        res.json(result);
+    } catch (error) {
+      res.json({result, error });
+    } //finally {}
   }
 }
 module.exports = new FuncoesController();
