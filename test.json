@@ -1,0 +1,63 @@
+{
+    "result": {
+      "name": "SequelizeValidationError",
+      "errors": [
+        {
+          "message": "Esse camponão pode ser vazio",
+          "type": "Validation error",
+          "path": "descricao",
+          "value": "",
+          "origin": "FUNCTION",
+          "instance": {
+            "id": null,
+            "descricao": "",
+            "ativo": true,
+            "updatedAt": "2020-03-18T23:42:53.357Z",
+            "createdAt": "2020-03-18T23:42:53.357Z"
+          },
+          "validatorKey": "notEmpty",
+          "validatorName": "notEmpty",
+          "validatorArgs": [
+            {
+              "msg": "Esse camponão pode ser vazio"
+            }
+          ],
+          "original": {
+            "validatorName": "notEmpty",
+            "validatorArgs": [
+              {
+                "msg": "Esse camponão pode ser vazio"
+              }
+            ]
+          }
+        },
+        {
+          "message": "Esse campo deve ter entre 4 e 30 caracteres",
+          "type": "Validation error",
+          "path": "descricao",
+          "value": "",
+          "origin": "FUNCTION",
+          "instance": {
+            "id": null,
+            "descricao": "",
+            "ativo": true,
+            "updatedAt": "2020-03-18T23:42:53.357Z",
+            "createdAt": "2020-03-18T23:42:53.357Z"
+          },
+          "validatorKey": "len",
+          "validatorName": "len",
+          "validatorArgs": [
+            4,
+            30
+          ],
+          "original": {
+            "validatorName": "len",
+            "validatorArgs": [
+              4,
+              30
+            ]
+          }
+        }
+      ]
+    }
+  }

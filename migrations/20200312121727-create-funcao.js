@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       descricao: {
-        type: Sequelize.STRING(30)
+        type: Sequelize.STRING(30),
       },
       ativo: {
         type: Sequelize.BOOLEAN

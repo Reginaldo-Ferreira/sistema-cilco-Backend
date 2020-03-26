@@ -30,3 +30,5 @@ app.use(bodyParser.json());
 app.listen(3000, () => {
     console.log("O servidor BackEnd está rodando! port:3000")
 })
+
+//as images serão salvas com o id do usuaário e aluno

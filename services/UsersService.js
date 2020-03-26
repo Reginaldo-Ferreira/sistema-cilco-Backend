@@ -9,11 +9,10 @@ class UsersService {
 
   async update(id, data) {
     var errors = {};
-    var isValid = this.validate(data, errors);
-    if (isValid) {
+   // var isValid = this.validate(data, errors);
+    //if (isValid) {
       try {
         var user = await this.getById(id);
-        //name, email, cpf, rg, datanascimento, sexo, endereco, password, role, ativo
         user.name = data.name;
         user.email = data.email;
         user.cpf = data.cpf;
@@ -28,13 +27,13 @@ class UsersService {
 
         await user.save();
         return { result: user };
-      } catch (error) {
+      } catch (e) {
         errors.system_msg = "não foi possível editar o user";
-        return { result: errors };
+        return { errors, e };
       }
-    } else {
+   // } else {
       return { result: errors };
-    }
+   // }
   }
 
   async listAll() {
@@ -45,11 +44,9 @@ class UsersService {
       result = await this.Users.findAll({
         include: [{ model: this.Funcoes }]
       }); //{ order: [["id", "DESC"]], limit: 4 }
-
       return result;
     } catch (e) {
       errors.system_msg = "não foi possível conectar com o banco";
-
       return { result, errors, e };
     }
   }
@@ -78,19 +75,19 @@ class UsersService {
   async store(users) {
     var errors = {};
 
-    var isValid = this.validate(users, errors);
+   // var isValid = this.validate(users, errors);
 
-    if (isValid) {
+    //if (isValid) {
       try {
         await this.Users.create(users);
         return { result: true };
       } catch (e) {
         errors.system_msg = "Não foi possível salvar o Usuário";
-        return { errors, Tryerro: e };
+        return { errors, e };
       }
-    } else {
+   // } else {
       return errors;
-    }
+   // }
   }
 
   async activate(id, activate) {
@@ -99,8 +96,8 @@ class UsersService {
       user.ativo = activate; //ativa ou desativa nomeclatura correta é 'deactivated' , contudo ficará com o nome que já estava.
       await user.save();
       return { result: "sucess", id, activate };
-    } catch (error) {
-      return { error, id };
+    } catch (e) {
+      return { id, e };
     }
   }
 
@@ -117,6 +114,7 @@ class UsersService {
       return { errors, id , e};
     }
   }
+  
 
   validate(user, errors) {
     var erroCount = 0;
