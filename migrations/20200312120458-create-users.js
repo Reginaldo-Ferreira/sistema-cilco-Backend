@@ -27,7 +27,7 @@ module.exports = {
         type: Sequelize.STRING(1)
       },
       endereco: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       password: {
         type: Sequelize.STRING
