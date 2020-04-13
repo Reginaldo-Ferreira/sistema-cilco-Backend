@@ -1,147 +1,173 @@
 //var Plan = require("../models/plan");
 var Database = require("../models/index");
+const Validation = require("../util/Validation");
+const ConversorJson = require("../util/ConversorJson");
+
 
 class UsersService {
+
   constructor() {
     this.Users = Database["Users"];
     this.Funcoes = Database["Funcoes"];
   }
 
-  async update(id, data) {
-    var errors = {};
-   // var isValid = this.validate(data, errors);
-    //if (isValid) {
-      try {
-        var user = await this.getById(id);
-        user.name = data.name;
-        user.email = data.email;
-        user.cpf = data.cpf;
-        user.rg = data.rg;
-        user.datanascimento = data.datanascimento;
-        user.sexo = data.sexo;
-        user.endereco = data.endereco;
-        user.password = data.password;
-        user.role = data.role;
-        user.ativo = data.ativo;
-        user.funcoes_id = data.funcao_id;
-
-        await user.save();
-        return { result: user };
-      } catch (e) {
-        errors.system_msg = "não foi possível editar o user";
-        return { errors, e };
-      }
-   // } else {
-      return { result: errors };
-   // }
+  async update(id, data) { //validar update deixar campos vazio sem atualizar,modificar somente campos não vazios
+    let errors = {status: "error"};
+    
+    var user = await this.getByIdInterno(id);
+    ConversorJson.EndJson(user);//converte campo endereco json
+    this.verificarCamposVazios(data, user);//atualiza somente campos que foram passados no 'data'
+    user = ConversorJson.EndString(user);//converte o campo endereco em string pra salva no banco
+    await user.save();
+    return { status: "sucess", data, user};// retorna o objeto anterior e o modificado
   }
 
-  async listAll() {
+  async listAll(fildsArray) {
+    //retirar opção senha
+    fildsArray =this.retirarCampoSenha(fildsArray);
+    console.log(fildsArray);
+    let errors = {status: "error"};
+    
     // no curso pelo professor o nome do method is getall()
-    let result = {};
-    var errors = {};
     try {
-      result = await this.Users.findAll({
-        include: [{ model: this.Funcoes }]
+     let users = await this.Users.findAll({
+       attributes: fildsArray, //attributes: fildsArray, exclude: ['password','name'],
+       include: [{ model: this.Funcoes }]
       }); //{ order: [["id", "DESC"]], limit: 4 }
-      return result;
-    } catch (e) {
-      errors.system_msg = "não foi possível conectar com o banco";
-      return { result, errors, e };
+      return { status: "sucess", users};// retorna o objeto anterior e o modificado
+    } catch (e) { 
+     
+      errors.system_msg = {msg:"não foi possível listar os usuários", where: this.constructor.name };
+      errors.system_sgbd = e;
+     // console.log(ob);
+      return errors;
     }
   }
 
-  async getById(id) {
-    let result = {};
-    var errors = {};
+  retirarCampoSenha(campo){
+    return campo.filter(camp => camp !=  'password');
+  }
+
+  async getByIdInterno(id){
     try {
-      result = await this.Users.findByPk(id, {
-        include: [{ model: this.Funcoes }]
-      });
-      //console.log(result)
-      if (result) {
-        let newObj = Object.assign({}, result.dataValues); // remodelando o objeto de retorno
-        return Object.assign(newObj, { Funco: newObj.Funco.descricao });
+      return await this.Users.findByPk(id, {
+        include: [{ model: this.Funcoes }] 
+      });//console.log(result) 
+    } catch (e) {
+      return e;
+    }
+  }
+  async getById(id) {
+    
+    let errors = {status: "error"};
+
+    try {
+
+      let user = await this.Users.findByPk(id, {
+        attributes: { exclude: ['password'] },
+        include: [{ model: this.Funcoes }] 
+      });//console.log(result)
+      if (user) {
+        Object.assign(user, { Funco: user.Funco.descricao });
+        return {status: "sucess", user};
       } else {
-        errors.system_msg = `Id: [ ${id} ] não encontrado`;
+        errors.system_msg = {msg: `Id: [ ${id} ] não encontrado`, where: this.constructor.name };
         return errors;
       }
     } catch (e) {
-      errors.system_msg = "não foi possível conectar com o banco";
-      return { errors, e };
+      errors.system_msg = {msg:`não foi possível trazer o usuário [ ${ id } ] `, where: this.constructor.name };
+      errors.system_sgbd = e;
+
+      return errors;
     }
   }
 
   async store(users) {
-    var errors = {};
+    let errors = {result: "error"};
 
-   // var isValid = this.validate(users, errors);
+    var res = await Validation.checkExistence(this.Users, [{cpf: users.cpf},{email: users.email}]);
+    //console.log(res);
 
-    //if (isValid) {
-      try {
+    if(res.cpf === true || res.email === true){ //caso exista
+      var textResposta = res.cpf?'CPF já cadastrado':'' + res.email?' Email já cadastrado':'' ;
+      return errors.system_msg = {msg:`Não foi possível criar o Usuário [ ${ textResposta } ]`, where: this.constructor.name };
+    }
+      try {   
         await this.Users.create(users);
-        return { result: true };
+        var userId = await Validation.checkExistence(this.Users, [{email: users.email}]);// verifica se foi criado
+       // console.log(UserId);
+        return { result: "sucess" , id: userId.id};
+
       } catch (e) {
-        errors.system_msg = "Não foi possível salvar o Usuário";
-        return { errors, e };
+
+        errors.system_msg = {msg:`Não foi possível criar o Usuário [ ${users.nome} ]`, where: this.constructor.name };
+        errors.system_sgbd = e;
+
+        return errors;
       }
-   // } else {
-      return errors;
-   // }
   }
 
   async activate(id, activate) {
+    let errors = {result: "error"};
+    let result = {};
+    errors.system_msg = {msg:` Não foi possível ${ activate } [ ${id} ]`, where: this.constructor.name };
     try {
+      
       var user = await this.getById(id);
-      user.ativo = activate; //ativa ou desativa nomeclatura correta é 'deactivated' , contudo ficará com o nome que já estava.
-      await user.save();
-      return { result: "sucess", id, activate };
+      if(user.system_sgbd.name === "SequelizeConnectionRefusedError"){
+        errors.system_sgbd = user.system_sgbd;
+        result = errors;
+      }else{
+        user.ativo = activate; //ativa ou desativa nomeclatura correta é 'deactivated' , contudo ficará com o nome que já estava.
+        await user.save();
+        result = { result: "sucess", id, activate };
+      }
+      //return { result: "sucess", id, activate };
     } catch (e) {
-      return { id, e };
+      errors.system_sgbd = e;
+      result = errors;
+    }finally{
+      return result;
     }
   }
 
   async delete(id) { //deleção permanente
+    let errors = {result: "error"};
+    let resp;
     try {
-      await this.Users.destroy({
-        where: {
-            id: id
-        }
+     resp = await this.Users.destroy({
+        where: { id }
     });
-    return { result: "deleatado", id };
+    if (resp) {
+      return { result: "sucess", id };
+    } else {
+      errors.result = "error";
+      errors.system_msg = { msg: `Não foi possível deletar o Usuário [ ${id} ] esse não existe`, where: this.constructor.name };
+
+      return errors;
+    }
+
+
     } catch (e) {
-      errors.system_msg = "Não foi possível deletar o Usuário";
-      return { errors, id , e};
+      errors.system_msg = { msg: `Não foi possível deletar o Usuário [ ${id} ]`, where: this.constructor.name };
+      errors.system_sgbd = e;
+
+      return errors;
     }
   }
-  
 
-  validate(user, errors) {
-    var erroCount = 0;
-    if (user.name == undefined) {
-      errors.name_msg = "o name é inválido";
-      erroCount++;
-    } else {
-      if (user.name.length < 3) {
-        errors.name_msg = "o name muito pequeno";
-        erroCount++;
+   verificarCamposVazios(dadosAtualizados, linhaDoSGBD){
+   // verifica se tem campos vazios e altera somente os que existem..
+       for (const property in dadosAtualizados) {
+         if(property == 'endereco' ) {
+           this.verificarCamposVazios(dadosAtualizados[property], linhaDoSGBD[property]);
+        }else {
+          if (dadosAtualizados[property] != '' && dadosAtualizados[property] != null ) {
+            linhaDoSGBD[property] = dadosAtualizados[property];
+          }
+        }
       }
-    }
-
-    if (user.email == undefined) {
-      errors.email_msg = "O email é inválida";
-      erroCount++;
-    } else {
-      if (user.email < 6) {
-        errors.email_msg = "email muito curto é inválida";
-        erroCount++;
-      }
-    }
-    if (erroCount == 0) {
-      return true;
-    } else {
-      return false;
-    }
   }
+
 }
 module.exports = new UsersService();

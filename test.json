@@ -61,3 +61,6 @@
       ]
     }
   }
+
+  //'25', 'rosangela sousa ferreira', 'gabril@hotmail.com',       '37866564876',    '665989201', '1000-01-01 00:00:00', 'M', '{\"cep\":\"72880-500\",   \"logradouro\":\"SQ 12 Quadra 5\",\"complemento\":\"\",\"bairro\":\"Centro\",     \"localidade\":\"Cidade Ocidental\",\"uf\":\"GO\",\"unidade\":\"\",\"ibge\":\"5205497\",\"gia\":\"\"}', 'h8i4b9p0', '2', '0', '2020-04-07 18:15:52', '2020-04-07 18:15:52', '1'
+ //                    '25', 'rosangela alvelino ferreira', 'rosangela@hotmail.com', '704.326.351.49', '665989201', '1994-06-08 00:00:00', 'M', '{\"cep\":\"38790002-162\",\"logradouro\":\"Q 07 Quadra 59\",\"complemento\":\"\",\"bairro\":\"copa cabana\",\"localidade\":\"Sol nascente\",    \"uf\":\"GO\",\"unidade\":\"\",\"ibge\":\"5205497\",\"gia\":\"\"}', 'h8i4b9p0', '3', '1', '2020-04-07 18:15:52', '2020-04-07 18:40:22', '5'

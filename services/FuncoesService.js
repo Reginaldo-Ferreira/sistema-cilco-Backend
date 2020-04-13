@@ -13,9 +13,9 @@ class FuncoesService {
           try {
             await this.Funcoes.create(funcoes);
             return {result: true};
-          } catch (e) {
+          } catch (errors) {
           //  errors.system_msg = "Não foi possível salvar o funcoes";
-            return { result: e };
+            return { result: errors };
           }
      //   } else {
         //  return errors;
@@ -25,10 +25,11 @@ class FuncoesService {
       async getall() {
         let result = {};
         try {
+
           result = await this.Funcoes.findAll(); //{ order: [["id", "DESC"]], limit: 4 }
           return result;
-        } catch (e) {
-          return {result,e};
+        } catch (errors) {
+          return {result,errors};
         }
       }
 

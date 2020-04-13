@@ -16,22 +16,32 @@ content-type: application/json
 
 ### users
 
-GET http://localhost:3000/admin/users/1
-
-
+GET http://localhost:3000/users/?fild=id,name,rg,Funco.descricao
+###
+GET http://localhost:3000/user/26
 ###
 
-PUT http://localhost:3000/users HTTP/1.1
+POST http://localhost:3000/user HTTP/1.1
 content-type: application/json
 
 {
-    "name": "r", 
-    "email": "roberto@hotmail.com",
-    "cpf": "704.326.351-49",
+    "name": "rosangela sousa ferreira", 
+    "email": "gabril@hotmail.com",
+    "cpf": "37866564876", 
     "rg": "665989201",
     "datanascimento": "1000-01-01",
     "sexo": "M",
-    "endereco": "{'cep': '72880-540','logradouro': 'SQ 13 Quadra 8','complemento': '','bairro': 'Centro','localidade': 'Cidade Ocidental','uf': 'GO','unidade': '','ibge': '5205497','gia': ''}",
+    "endereco": {
+        "cep": "72880-500",
+        "logradouro": "SQ 12 Quadra 5",
+        "complemento": "",
+        "bairro": "Centro",
+        "localidade": "Cidade Ocidental",
+        "uf": "GO",
+        "unidade": "",
+        "ibge": "5205497",
+        "gia": ""
+        },
     "password": "h8i4b9p0",
     "role": "2",
     "ativo": "false",
@@ -43,22 +53,43 @@ content-type: application/json
 
 
 
-POST http://localhost:3000/users HTTP/1.1
+PUT http://localhost:3000/user HTTP/1.1
 content-type: application/json
 
 {
-    "id": "7",
-    "name": "Gesimiel aguiar",
-    "email": "Gesimiel@hotmail.com",
-    "cpf": "4598932149",
+    "id": "25",
+    "name": "rosangela alvelino ferreira",
+    "email": "rosangela@hotmail.com",
+    "cpf": "704.326.351.49",
     "rg": "665989201",
     "datanascimento": "1994-06-08",
     "sexo": "M",
-    "endereco": "{'cep': '72880-540','logradouro': 'SQ 13 Quadra 8','complemento': '','bairro': 'Centro','localidade': 'Cidade Ocidental','uf': 'GO','unidade': '','ibge': '5205497','gia': ''}",
-    "password": "1111",
-    "role": "2",
+    "endereco": {
+        "cep": "38790002-162",
+        "logradouro": "Q 07 Quadra 59",
+        "complemento": "",
+        "bairro": "copa cabana",
+        "localidade": "Sol nascente",
+        "uf": "GO",
+        "unidade": "",
+        "ibge": "5205497",
+        "gia": ""
+        },
+        "password": "h8i4b9p0",
+    "role": "3",
     "ativo": "true",
     "funcoes_id": "5"
+}
+
+#####
+
+PUT http://localhost:3000/user HTTP/1.1
+content-type: application/json
+
+{
+    "id": "25",
+    "name": "rosangela rosangela ferreira",
+    "email": "ferrerira@hotmail.com"
 }
 
 ###
@@ -67,4 +98,4 @@ GET http://localhost:3000/users/activate/7/true HTTP/1.1
 
 ###
 
-DELETE http://localhost:3000/users/8 HTTP/1.1
+DELETE http://localhost:3000/users/110 HTTP/1.1

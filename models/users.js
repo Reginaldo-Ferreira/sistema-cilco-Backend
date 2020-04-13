@@ -1,5 +1,5 @@
 "use strict";
-var Validation = require("../util/Validation");
+const Validation = require("../util/Validation");
 module.exports = (sequelize, DataTypes) => {
   const Users = sequelize.define(
     "Users",

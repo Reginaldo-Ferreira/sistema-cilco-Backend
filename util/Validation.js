@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+
 class Validations {
 
   static verifLetrasDigitos(value) {
@@ -47,7 +49,46 @@ class Validations {
 
     return true;
 
-  };
+  }
+
+  // campo= [{prop:'value'},{{prop2:'value2'},...]
+  
+  static async checkExistence(model, campos){
+    let where = {[Sequelize.Op.or]:campos};
+    let result = {};
+//console.log("checkExistence: ",where );
+    const row = await model.findOne({
+      where
+    });
+   // console.log("checkExistence row: ",row );
+    //console.log("row: ", row);
+    if (row !== null) {
+      var dataValues = row.dataValues
+      campos.forEach((v, i, ar)=>{
+       
+        let rowKey = '';
+
+        try{
+          rowKey = Object.keys(dataValues); //Object.keys( where[i]);
+        }catch(e){
+           //console.log(e);
+         }
+        // console.log("rowKey: ",rowKey);
+
+         let prop = Object.keys(v);
+         //console.log("rowKey ", rowKey );
+         //console.log("verif...",v[prop] ,where[i][rowKey] );
+         //result[prop] = v[prop] == ((typeof where[i] !== "undefined") ? where[i][rowKey] : "undefined" );
+         result[prop] = v[prop] == ((typeof dataValues[prop] !== "undefined") ? dataValues[prop] : "undefined" );
+         result.id = row.dataValues.id;
+        });
+    }else{
+      return {fields: false};
+    }
+
+    return result;
+  }
+
 }
 
 module.exports = Validations;
