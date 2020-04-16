@@ -1,8 +1,60 @@
+
+### telefones Users
+
+GET http://localhost:3000/telefones HTTP/1.1
+content-type: application/json
+
+###
+GET http://localhost:3000/telefone/2 HTTP/1.1
+content-type: application/json
+
+###
+DELETE http://localhost:3000/telefone/1 HTTP/1.1
+content-type: application/json
+
+###
+PUT http://localhost:3000/telefone HTTP/1.1
+content-type: application/json
+
+{
+    "id": 2,
+    "numero": "1"
+}
+
+###
+
+POST http://localhost:3000/telefone HTTP/1.1
+content-type: application/json
+
+{
+    "numero": "(62)9111-2116",
+    "nome_contato": "cassio2",
+    "user_id": 3
+}
+
+
+
+
 ### funções
 
 GET http://localhost:3000/funcoes HTTP/1.1
 content-type: application/json
+###
+GET http://localhost:3000/funcao/1 HTTP/1.1
+content-type: application/json
 
+###
+DELETE http://localhost:3000/funcao/4 HTTP/1.1
+content-type: application/json
+
+###
+PUT http://localhost:3000/funcao HTTP/1.1
+content-type: application/json
+
+{
+    "id": 1,
+    "descricao": "Diretor modificado"
+}
 
 ###
 
@@ -76,9 +128,6 @@ content-type: application/json
         "gia": ""
         },
         "password": "h8i4b9p0",
-    "role": "3",
-    "ativo": "true",
-    "funcoes_id": "5"
 }
 
 #####
@@ -87,15 +136,27 @@ PUT http://localhost:3000/user HTTP/1.1
 content-type: application/json
 
 {
-    "id": "25",
-    "name": "rosangela rosangela ferreira",
-    "email": "ferrerira@hotmail.com"
+    "id":2,
+    "name":"Gabriel guimaraes sousa", 
+    "email":"Guimaraes@gmail.com", 
+    "endereco": { 
+        "cep": "92880-540",
+        "logradouro": "SQ 13 Quadra 8",
+        "complemento": "",
+        "bairro": "Centro",
+        "localidade": 
+        "Cidade Ocidental",
+        "uf": "GO",
+        "unidade": "",
+        "ibge": "5205497",
+        "gia": ""
+    }
 }
 
 ###
 
-GET http://localhost:3000/users/activate/7/true HTTP/1.1
+GET http://localhost:3000/user/activate/7/true HTTP/1.1
 
 ###
 
-DELETE http://localhost:3000/users/110 HTTP/1.1
+DELETE http://localhost:3000/user/110 HTTP/1.1

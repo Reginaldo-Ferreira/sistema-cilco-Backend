@@ -4,10 +4,6 @@ const ConversorJson = require("../util/ConversorJson");
 class UsersController {
   async index(req, res) {
     var arrCampos = req.query.fild.split(","); 
-  //  console.log("tipo: ", typeof arrCampos);
-   // console.log("result: ", arrCampos);
-   // console.log("useres comp filds: ", req.query);
-
     let result = {};
       result = await UsersService.listAll(arrCampos); // getall()
       res.json(result);
@@ -24,11 +20,9 @@ class UsersController {
   async update(req, res) {
 
     var user = { ...req.body };
-    console.log("controller : ", user);
    // user = ConversorJson.EndString(user);
-  
     var result = await UsersService.update(user.id, user);
-    //res.json(plan);
+    
     if (result == true) {
       res.json({ id, result });
     } else {

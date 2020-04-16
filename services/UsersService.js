@@ -57,6 +57,7 @@ class UsersService {
       return e;
     }
   }
+
   async getById(id) {
     
     let errors = {status: "error"};
@@ -69,11 +70,9 @@ class UsersService {
       });//console.log(result)
       if (user) {
         Object.assign(user, { Funco: user.Funco.descricao });
-        return {status: "sucess", user};
-      } else {
-        errors.system_msg = {msg: `Id: [ ${id} ] não encontrado`, where: this.constructor.name };
-        return errors;
       }
+      
+      return {status: "sucess", user};
     } catch (e) {
       errors.system_msg = {msg:`não foi possível trazer o usuário [ ${ id } ] `, where: this.constructor.name };
       errors.system_sgbd = e;
@@ -138,6 +137,7 @@ class UsersService {
      resp = await this.Users.destroy({
         where: { id }
     });
+  
     if (resp) {
       return { result: "sucess", id };
     } else {
@@ -147,11 +147,9 @@ class UsersService {
       return errors;
     }
 
-
     } catch (e) {
       errors.system_msg = { msg: `Não foi possível deletar o Usuário [ ${id} ]`, where: this.constructor.name };
       errors.system_sgbd = e;
-
       return errors;
     }
   }

@@ -9,6 +9,7 @@ app.use(cors());
 //Router imports
  const UsersRouter = require("./routes/UsersRoutes");
  const FuncoesRoutes = require("./routes/FuncoesRoutes");
+ const telefonesRoutes = require("./routes/TelefonesRoutes");
 
 
 app.use(express.static('public'));
@@ -19,9 +20,12 @@ app.use(bodyParser.json());
 
 
 // Router
+// entidades do  users
  app.use("/", UsersRouter);
  app.use("/", FuncoesRoutes);
-
+ app.use("/", telefonesRoutes);
+ //entidades do aluno e professor
+ 
     app.get("/", (req, res) => {
         res.json({text: 'servidor is open!'});
     })
