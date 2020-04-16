@@ -54,14 +54,19 @@ class Validations {
   // campo= [{prop:'value'},{{prop2:'value2'},...]
   
   static async checkExistence(model, campos){
-    let where = {[Sequelize.Op.or]:campos};
+    let where= {};
+    if(campos.length > 1){
+      where = {[Sequelize.Op.or]:campos};
+    }else{
+      where = campos[0] ;
+    }
+
     let result = {};
 //console.log("checkExistence: ",where );
     const row = await model.findOne({
       where
     });
-   // console.log("checkExistence row: ",row );
-    //console.log("row: ", row);
+    
     if (row !== null) {
       var dataValues = row.dataValues
       campos.forEach((v, i, ar)=>{
@@ -71,21 +76,18 @@ class Validations {
         try{
           rowKey = Object.keys(dataValues); //Object.keys( where[i]);
         }catch(e){
+    
            //console.log(e);
          }
-        // console.log("rowKey: ",rowKey);
-
-         let prop = Object.keys(v);
-         //console.log("rowKey ", rowKey );
-         //console.log("verif...",v[prop] ,where[i][rowKey] );
-         //result[prop] = v[prop] == ((typeof where[i] !== "undefined") ? where[i][rowKey] : "undefined" );
+     
+         let prop = Object.keys(v);// 
          result[prop] = v[prop] == ((typeof dataValues[prop] !== "undefined") ? dataValues[prop] : "undefined" );
          result.id = row.dataValues.id;
         });
     }else{
       return {fields: false};
     }
-
+ 
     return result;
   }
 
