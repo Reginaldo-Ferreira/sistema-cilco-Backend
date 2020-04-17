@@ -77,10 +77,10 @@ POST http://localhost:3000/user HTTP/1.1
 content-type: application/json
 
 {
-    "name": "rosangela sousa ferreira", 
-    "email": "gabril@hotmail.com",
-    "cpf": "37866564876", 
-    "rg": "665989201",
+    "name": "jonatas crisalis flores", 
+    "email": "crisalis@hotmail.com",
+    "cpf": "14044283567", 
+    "rg": "660989201",
     "datanascimento": "1000-01-01",
     "sexo": "M",
     "endereco": {
@@ -160,3 +160,39 @@ GET http://localhost:3000/user/activate/7/true HTTP/1.1
 ###
 
 DELETE http://localhost:3000/user/110 HTTP/1.1
+
+
+### alunos 
+
+POST  http://localhost:3000/aluno HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Izaque guimaraes de sousa", 
+    "email": "izaque@hotmail.com",
+    "cpf": "48162146741", 
+    "rg": "565900201",
+    "datanascimento": "2014-01-01",
+    "sexo": "M",
+    "endereco": {
+        "cep": "52332-501",
+        "logradouro": "SQ 12 Quadra 5",
+        "complemento": "",
+        "bairro": "Centro",
+        "localidade": "Cidade Ocidental",
+        "uf": "GO",
+        "unidade": "",
+        "ibge": "5205497",
+        "gia": ""
+        },
+    "password": "h8i4b9p0",
+    "role": "2",
+    "ativo": "true"
+}
+
+###
+
+GET http://localhost:3000/aluno/0 HTTP/1.1
+content-type: application/json
+
+###

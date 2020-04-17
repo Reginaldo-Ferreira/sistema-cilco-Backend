@@ -10,7 +10,7 @@ app.use(cors());
  const UsersRouter = require("./routes/UsersRoutes");
  const FuncoesRoutes = require("./routes/FuncoesRoutes");
  const telefonesRoutes = require("./routes/TelefonesRoutes");
-
+ const AlunosRoutes = require("./routes/AlunosRoutes");
 
 app.use(express.static('public'));
 
@@ -24,7 +24,9 @@ app.use(bodyParser.json());
  app.use("/", UsersRouter);
  app.use("/", FuncoesRoutes);
  app.use("/", telefonesRoutes);
- //entidades do aluno e professor
+ //entidades do aluno e professor AlunosRoutes
+ app.use("/", AlunosRoutes);
+
  
     app.get("/", (req, res) => {
         res.json({text: 'servidor is open!'});
