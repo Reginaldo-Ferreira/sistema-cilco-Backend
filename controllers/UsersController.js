@@ -3,7 +3,13 @@ const ConversorJson = require("../util/ConversorJson");
 
 class UsersController {
   async index(req, res) {
-    var arrCampos = req.query.fild.split(","); 
+    var arrCampos = null;
+
+    if (req.query.fild != null) {
+      arrCampos = req.query.fild.split(","); 
+    }
+
+
     let result = {};
       result = await UsersService.listAll(arrCampos); // getall()
       res.json(result);
@@ -35,7 +41,7 @@ class UsersController {
    
     let result = await UsersService.getById(req.params.id);
    // ConversorJson.EndJson(user)
-   if(result.status !== "error"){
+   if(result.status !== "error" && result.user !== null || result.user !== null ){
     let PropriedadeEnderecoConvertidoJson = ConversorJson.EndJson(result.user);
      Object.assign(result, {user: PropriedadeEnderecoConvertidoJson});
    // user = ConversorJson.EndJson(user.user);
